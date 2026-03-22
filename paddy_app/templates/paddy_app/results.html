@@ -1,0 +1,38 @@
+{% extends 'paddy_app/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <h2 class="mb-4 text-dark mt-4">Detection Results</h2>
+        {% if detections %}
+            <div class="row g-4">
+                {% for detection in detections %}
+                    <div class="col-md-4">
+                        <div class="glass-card h-100">
+                            <img src="{{ detection.image.url }}" class="img-fluid rounded mb-3" style="max-height: 200px; width: 100%; object-fit: cover;">
+                            <h5 class="text-success">{{ detection.detected_disease }}</h5>
+                            <p class="mb-1"><strong>Confidence:</strong> {{ detection.confidence|floatformat:2 }}</p>
+                            <p class="small text-muted mb-0">Analyzed on {{ detection.created_at|date:"M d, Y H:i" }}</p>
+                            
+                            {% if detection.detected_disease != 'Healthy' %}
+                                <div class="alert alert-warning mt-3 py-2 small">
+                                    <strong>Recommendation:</strong> Consult an expert for treatment.
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success mt-3 py-2 small">
+                                    <strong>Healthy:</strong> No disease detected.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="glass-card text-center py-5">
+                <p class="lead">No results found. Start by uploading an image!</p>
+                <a href="{% url 'upload_image' %}" class="btn btn-primary px-5 mt-3">Upload Now</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

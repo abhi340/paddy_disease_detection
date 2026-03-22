@@ -1,0 +1,31 @@
+{% extends 'paddy_app/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="glass-card mt-5">
+            <h2 class="mb-4">Search Farmers</h2>
+            <form method="get" class="d-flex mb-4">
+                <input type="text" name="q" value="{{ query }}" class="form-control me-2" placeholder="Search by username...">
+                <button type="submit" class="btn btn-primary px-4">Search</button>
+            </form>
+
+            {% if users %}
+                <ul class="list-group list-group-flush">
+                    {% for profile in users %}
+                        <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">{{ profile.user.username }}</h6>
+                                <small class="text-muted">{{ profile.phone }}</small>
+                            </div>
+                            <a href="{% url 'send_request' profile.user.id %}" class="btn btn-sm btn-outline-success">Send Friend Request</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% elif query %}
+                <p class="text-muted">No users found for "{{ query }}".</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

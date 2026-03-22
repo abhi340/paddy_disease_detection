@@ -1,0 +1,42 @@
+{% extends 'paddy_app/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="glass-card mt-5">
+            <h2 class="text-center mb-4">Detect Paddy Disease</h2>
+            <p class="text-center text-muted mb-4">Upload a photo and provide environmental conditions for accurate analysis.</p>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <label class="form-label fw-bold">Paddy Leaf Image</label>
+                        {{ form.image }}
+                        {% if form.image.errors %}<div class="text-danger small">{{ form.image.errors }}</div>{% endif %}
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Temperature (°C)</label>
+                        <input type="number" step="0.1" name="temperature" class="form-control" placeholder="e.g. 30.5" required>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Humidity (%)</label>
+                        <input type="number" step="0.1" name="humidity" class="form-control" placeholder="e.g. 85" required>
+                    </div>
+                    
+                    <div class="col-md-12 mb-4">
+                        <label class="form-label">Location</label>
+                        <input type="text" name="location" class="form-control" placeholder="e.g. District, State" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 py-3 mt-2">
+                    <span class="h5 m-0">Start Analysis</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
